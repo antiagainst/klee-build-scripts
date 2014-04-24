@@ -1,0 +1,110 @@
+# PKGBUILD file for klee-unstable (based on LLVM 3.4)
+
+# Maintainer: Lei Zhang <antiagainst@gmail.com>
+
+pkgname=klee-unstable
+pkgver=3.4
+pkgrel=1
+pkgdesc='KLEE Symbolic Virtual Machine'
+arch=('x86_64')
+url='http://klee.github.io/klee/'
+license=('custom:University of Illinois')
+#groups=('klee')
+depends=('python2' 'boost')
+makedepends=('git' 'cmake' 'clang')
+#provides=('llvm=3.4' 'clang=3.4' 'klee')
+options=('!strip')
+source=(http://llvm.org/releases/3.4/llvm-3.4.src.tar.gz
+        http://llvm.org/releases/3.4/clang-3.4.src.tar.gz
+        stp::git+https://github.com/stp/stp.git
+        klee-uclibc::git+https://github.com/klee/klee-uclibc.git#branch=klee_0_9_29
+        klee::git+https://github.com/klee/klee.git)
+md5sums=('46ed668a1ce38985120dbf6344cf6116'
+         'b378f1e2c424e03289effc75268d3d2c'
+         'SKIP' 'SKIP' 'SKIP')
+
+# use parallel jobs
+_ncpu=$(grep -c processor /proc/cpuinfo)
+# XXX change this variable to where you want to install klee
+_prefix=/usr/local
+
+# add number of commits and the hash of the latest commit into the version number
+pkgver() {
+    cd ${srcdir}/klee
+    printf '3.4.r%s.%s' $(git rev-list --count HEAD) $(git rev-parse --short HEAD)
+}
+
+# decompress llvm and clang into the same location
+prepare() {
+    cd ${srcdir}
+    tar xzf llvm-3.4.src.tar.gz
+    tar xzf clang-3.4.src.tar.gz
+    mv clang-3.4 llvm-3.4/tools/clang
+}
+
+_build_llvm_clang() {
+    cd ${srcdir}/llvm-3.4
+    ./configure \
+        --enable-optimized \
+        --prefix=${_prefix}
+    make -j${_ncpu}
+}
+
+_build_stp() {
+    cd ${srcdir}/stp
+    mkdir build
+    cd build
+    cmake ../
+    make -j${_ncpu}
+}
+
+_build_klee_uclibc() {
+    cd ${srcdir}/klee-uclibc
+    ./configure --make-llvm-lib
+    make -j${_ncpu}
+}
+
+_build_klee() {
+    cd ${srcdir}/klee
+    ./configure \
+        --with-llvm=${srcdir}/llvm-3.4 \
+        --with-stp=${srcdir}/stp/build \
+        --with-uclibc=${srcdir}/klee-uclibc \
+        --enable-posix-runtime \
+        --prefix=${_prefix}
+    make -j${_ncpu} ENABLE_OPTIMIZED=1
+}
+
+build() {
+    _build_llvm_clang
+    _build_stp
+    _build_klee_uclibc
+    _build_klee
+}
+
+_test_klee() {
+    cd ${srcdir}/klee
+    #make -k test
+    make -k unittests
+}
+
+check() {
+    _test_klee
+}
+
+_install_llvm_clang() {
+    cd ${srcdir}/llvm-3.4
+    make prefix=${pkgdir}/${_prefix} install
+}
+
+_install_klee() {
+    cd ${srcdir}/klee
+    make prefix=${pkgdir}/${_prefix} install
+}
+
+package() {
+    _install_llvm_clang
+    _install_klee
+}
+
+# vim:set ts=4 sw=4 et:
