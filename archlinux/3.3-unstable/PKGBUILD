@@ -9,9 +9,9 @@ pkgdesc='KLEE Symbolic Virtual Machine'
 arch=('x86_64')
 url='http://klee.github.io/klee/'
 license=('custom:University of Illinois')
-groups=('klee')
-depends=('python2')
-makedepends=('git' 'cmake')
+#groups=('klee')
+depends=('python2' 'boost')
+makedepends=('git' 'cmake' 'clang')
 #provides=('llvm=3.3' 'clang=3.3' 'klee')
 options=('!strip')
 source=(http://llvm.org/releases/3.3/llvm-3.3.src.tar.gz
