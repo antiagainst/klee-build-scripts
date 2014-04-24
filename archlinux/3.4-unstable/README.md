@@ -1,7 +1,7 @@
-PKGBUILD for KLEE (Based on LLVM 3.3)
+PKGBUILD for KLEE (Based on LLVM 3.4)
 =====================================
 
-Use this PKGBUILD to build LLVM (3.3), Clang (3.3), and KLEE on Archlinux.
+Use this PKGBUILD to build LLVM (3.4), Clang (3.4), and KLEE on Archlinux.
 
 #### Prerequisites
 
@@ -10,8 +10,8 @@ Use this PKGBUILD to build LLVM (3.3), Clang (3.3), and KLEE on Archlinux.
 
 #### versions
 
-* LLVM: 3.3
-* Clang: 3.3
+* LLVM: 3.4
+* Clang: 3.4
 * stp: latest commit in git repo
 * klee-uclibc: branch `klee_0_9_29` in git repo
 * KLEE: latest commit in git repo
