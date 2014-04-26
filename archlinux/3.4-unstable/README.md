@@ -8,7 +8,7 @@ Use this PKGBUILD to build LLVM (3.4), Clang (3.4), and KLEE on Archlinux.
 * Archlinux.
 * package group `base-devel` installed.
 
-#### versions
+#### Versions
 
 * LLVM: 3.4
 * Clang: 3.4
@@ -19,10 +19,10 @@ Use this PKGBUILD to build LLVM (3.4), Clang (3.4), and KLEE on Archlinux.
 #### Steps
 
 1. Copy the `PKGBUILD` file to your build directory.
-3. Enter that directory, `makepkg`, and wait for the building. Since we are building LLVM,
-   Clang, and KLEE, this could take a long time.
-4. When successful, A package named `klee-unstable-*.pkg.tar.xz` will be genenerated.
-5. You can install it using `pacman -U klee-unstable-*.pkg.tar.xz`.
+2. Enter that directory, `makepkg`, and wait for the building. Since we are building three
+   projects, it could take a long time.
+3. When successful, A package named `klee-unstable-*.pkg.tar.xz` will be genenerated.
+4. You can install it using `pacman -U klee-unstable-*.pkg.tar.xz`.
 
 #### Notes
 
