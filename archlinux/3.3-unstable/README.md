@@ -32,3 +32,4 @@ Use this PKGBUILD to build LLVM (3.3), Clang (3.3), and KLEE on Archlinux.
   directly from the official repository is used to build LLVM, Clang, and klee-uclibc,
   etc. So after installing the `klee-unstable` package, two `clang`s exist. You may want
   to tune your `PATH` to use the correct one.
+* To remove the package, simply issue `pacman -R klee-unstable`.
