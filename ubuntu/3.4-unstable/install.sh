@@ -83,7 +83,7 @@ prepare() {
     #export PATH=${BuildDir}:$PATH
 
     # libgtest-dev only installs header and source files
-    # build the library if we have not do this earlier
+    # build the library if we have not done this earlier
     if [[ ! -e "/usr/lib/libgtest.a" ]]; then
         build_gtest
     fi
